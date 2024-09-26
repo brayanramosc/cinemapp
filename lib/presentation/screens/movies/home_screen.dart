@@ -1,6 +1,8 @@
 import 'package:cinemapp/domain/entity/movie.dart';
 import 'package:cinemapp/presentation/providers/movies/movie_provider.dart';
+import 'package:cinemapp/presentation/widgets/shared/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,15 +39,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     if (nowPlayingMovies.isEmpty) return CircularProgressIndicator();
 
-    return ListView.builder(
-      itemCount: nowPlayingMovies.length,
-      itemBuilder: (context, index) {
-        final movie = nowPlayingMovies[index];
+    return Column(
+      children: [
+        CustomAppbar(),
+        
+        Expanded(
+          child: ListView.builder(
+            itemCount: nowPlayingMovies.length,
+            itemBuilder: (context, index) {
+              final movie = nowPlayingMovies[index];
 
-        return ListTile(
-          title: Text(movie.title),
-        );
-      },
+              return ListTile(
+                title: Text(movie.title),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

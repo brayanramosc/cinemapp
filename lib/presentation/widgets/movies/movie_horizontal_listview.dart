@@ -18,7 +18,8 @@ class MovieHorizontalListview extends StatefulWidget {
       this.loadNextPage});
 
   @override
-  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+  State<MovieHorizontalListview> createState() =>
+      _MovieHorizontalListviewState();
 }
 
 class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
@@ -30,7 +31,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
-      if (scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels + 200 >=
+          scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
       }
     });
@@ -78,64 +80,69 @@ class _Slide extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                movie.backdropPath,
-                fit: BoxFit.cover,
-                width: 150,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress != null) {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  movie.posterPath,
+                  fit: BoxFit.cover,
+                  width: 150,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress != null) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                  return FadeIn(child: child);
-                },
+                      );
+                    }
+                    return FadeIn(child: child);
+                  },
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          SizedBox(
-            width: 150,
-            child: Text(
-              movie.title,
-              maxLines: 2,
-              style: textStyle.titleSmall,
+            const SizedBox(
+              height: 5,
             ),
-          ),
-          SizedBox(
-            width: 150,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.star_half_outlined,
-                  color: Colors.yellow.shade800,
-                ),
-                const SizedBox(width: 3),
-                Text(
-                  HumanFormats.limitDecimals(movie.voteAverage, 1),
-                  style: textStyle.bodyMedium
-                      ?.copyWith(color: Colors.yellow.shade800),
-                ),
-                const Spacer(),
-                Text(HumanFormats.compactNumber(movie.popularity), style: textStyle.bodySmall,)
-              ],
+            SizedBox(
+              width: 150,
+              child: Text(
+                movie.title,
+                maxLines: 2,
+                style: textStyle.titleSmall,
+              ),
             ),
-          )
-        ],
+            SizedBox(
+              width: 150,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.star_half_outlined,
+                    color: Colors.yellow.shade800,
+                  ),
+                  const SizedBox(width: 3),
+                  Text(
+                    HumanFormats.limitDecimals(movie.voteAverage, 1),
+                    style: textStyle.bodyMedium
+                        ?.copyWith(color: Colors.yellow.shade800),
+                  ),
+                  const Spacer(),
+                  Text(
+                    HumanFormats.compactNumber(movie.popularity),
+                    style: textStyle.bodySmall,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -153,7 +160,7 @@ class _Title extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 20),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 8),
       child: Row(
         children: [
           if (title != null)

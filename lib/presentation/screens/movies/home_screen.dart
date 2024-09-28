@@ -35,16 +35,51 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Movie> nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final List<Movie> slideShowMovies = ref.watch(movieSlideShowProvider);
 
     if (slideShowMovies.isEmpty) return const CircularProgressIndicator();
 
-    return Column(
-      children: [
-        const CustomAppbar(),
-        
-        MoviesSlideshow(movies: slideShowMovies)
-      ],
-    );
+    return CustomScrollView(slivers: [
+      const SliverAppBar(
+        floating: true,
+        title: CustomAppbar(),
+      ),
+      SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+        return Column(
+          children: [
+            MoviesSlideshow(movies: slideShowMovies),
+            MovieHorizontalListview(
+              movies: nowPlayingMovies,
+              title: 'En cines',
+              subtitle: 'Lunes 20',
+              loadNextPage: () =>
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+            ),
+            MovieHorizontalListview(
+              movies: nowPlayingMovies,
+              title: 'Próximamente',
+              subtitle: 'Este mes',
+              loadNextPage: () =>
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+            ),
+            MovieHorizontalListview(
+              movies: nowPlayingMovies,
+              title: 'Populares',
+              loadNextPage: () =>
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+            ),
+            MovieHorizontalListview(
+              movies: nowPlayingMovies,
+              title: 'Mejor calificadas',
+              loadNextPage: () =>
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+            ),
+            const SizedBox(height: 50),
+          ],
+        );
+      }, childCount: 1))
+    ]);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cinemapp/domain/entity/movie.dart';
+import 'package:cinemapp/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinemapp/infrastructure/models/moviedb/movie_moviedb.dart';
 
 class MovieMapper {
@@ -21,4 +22,24 @@ class MovieMapper {
       video: moviedb.video,
       voteAverage: moviedb.voteAverage,
       voteCount: moviedb.voteCount);
+
+  static Movie movieDetailsToEntity(MovieDetails movie) => Movie(
+      adult: movie.adult,
+      backdropPath: movie.backdropPath != ''
+          ? 'https://image.tmdb.org/t/p/w500${movie.backdropPath}'
+          : 'https://www.prokerala.com/movies/assets/img/no-poster-available.jpg',
+      genreIds: movie.genres.map((e) => e.name).toList(),
+      id: movie.id,
+      originalLanguage: movie.originalLanguage,
+      originalTitle: movie.originalTitle,
+      overview: movie.overview,
+      popularity: movie.popularity,
+      posterPath: movie.posterPath != ''
+          ? 'https://image.tmdb.org/t/p/w500${movie.posterPath}'
+          : 'https://www.prokerala.com/movies/assets/img/no-poster-available.jpg',
+      releaseDate: movie.releaseDate,
+      title: movie.title,
+      video: movie.video,
+      voteAverage: movie.voteAverage,
+      voteCount: movie.voteCount);
 }
